@@ -19,7 +19,8 @@ namespace AngularLoginApi
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, users.Id.ToString()),
-                new Claim(ClaimTypes.Email,users.Email)
+                new Claim(ClaimTypes.Email,users.Email),
+                new Claim(ClaimTypes.Role,users.Role)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["jwt:key"]));
 
@@ -28,7 +29,7 @@ namespace AngularLoginApi
             var token = new JwtSecurityToken(
                 issuer: _config["jwt:Issuer"],
                 audience: _config["jwt:Audience"],
-                claims: claims,
+                claims: claims, 
                 expires: DateTime.Now.AddMinutes(Convert.ToDouble(_config["jwt:ExpireMinutes"])),
                 signingCredentials: cred
             );
